@@ -239,7 +239,7 @@ The ultimate destination of this supply chain is the **Agentic Interface**. The 
 - **Kinaxis:**  
   *The Supply Chain of AI (Faye Baker)*  
   Source for China's 90% REE refining monopoly, silicon purity standards, and the $15.7 trillion global GDP projection.
-
+z
 """
 }
 
@@ -299,11 +299,25 @@ def render_mermaid(diagram: str, height: int = 800) -> None:
 
 def main() -> None:
     st.set_page_config(page_title="AI Supply Chain Explorer", layout="wide")
-    st.title("AI Supply Chain Explorer")
-    st.markdown(
-        "Interactive map of the global AI hardware, power, and capital ecosystem."
-    )
 
+    # --- HEADER ---
+    # Uchicago shield image (local file)
+    uchicago_shield_url = "UChicago_Shield_1Color_Maroon_RGB.png"
+    with st.container():
+        col_logo, col_title = st.columns([1, 7])
+        with col_logo:
+            st.image(uchicago_shield_url, width=60)
+        with col_title:
+            st.title("AI Supply Chain Explorer")
+            st.caption(
+                "Mapping the global AI hardware, power, and capital ecosystem.")
+
+    st.markdown(
+        "<style>div.block-container{padding-top:1.5rem;}</style>", unsafe_allow_html=True)
+
+    # --- SIDEBAR ---
+    st.sidebar.image(uchicago_shield_url, width=50)
+    st.sidebar.title("Layer Intelligence")
     layer_options = [
         "AI Supply Chain: Overview",
         "Layer 1 - Resource and Extraction",
@@ -314,12 +328,8 @@ def main() -> None:
         "Layer 6 - The Agentic Interface",
         "Sources and References"
     ]
-
     if "selected_layer" not in st.session_state:
         st.session_state.selected_layer = layer_options[0]
-
-    # Sidebar for navigation and details (vertical layout)
-    st.sidebar.title("Layer Intelligence")
     selected_layer = st.sidebar.radio(
         "Select a Layer to Investigate:",
         options=layer_options,
@@ -327,19 +337,36 @@ def main() -> None:
     )
     st.sidebar.markdown("---")
     st.sidebar.markdown(LAYER_MARKDOWN[selected_layer])
+    st.sidebar.markdown("---")
+    st.sidebar.info("Contact: ai-team@example.com")
 
-    st.subheader("System Interaction Map")
-    render_mermaid(MERMAID_DIAGRAM)
-    st.caption(
-        "Use the sidebar to select an intelligence layer for deep-dive analysis and source references."
-    )
+    # --- MAIN CONTENT ---
+    with st.container():
+        st.subheader("System Interaction Map")
+        st.markdown(
+            "Visualize the flow of resources, capital, and intelligence across the AI supply chain."
+        )
+        render_mermaid(MERMAID_DIAGRAM)
+        st.caption(
+            "Use the sidebar to select an intelligence layer for deep-dive analysis and source references."
+        )
 
     st.markdown("---")
-    st.subheader("Key Market Metrics (Data-Validated)")
-    m1, m2, m3 = st.columns(3)
-    m1.metric("Global Economic Impact (2030)", "$15.7 Trillion")
-    m2.metric("Projected AI CapEx (2027)", "$1.0 Trillion")
-    m3.metric("China REE Mono-Refining", "90%")
+
+    # --- METRICS ---
+    with st.container():
+        st.subheader("Key Market Metrics (Data-Validated)")
+        m1, m2, m3 = st.columns(3)
+        m1.metric("🌎 Global Economic Impact (2030)", "$15.7 Trillion")
+        m2.metric("💸 Projected AI CapEx (2027)", "$1.0 Trillion")
+        m3.metric("🇨🇳 China REE Mono-Refining", "90%")
+
+    # --- FOOTER ---
+    st.markdown("---")
+    st.markdown(
+        "<div style='text-align: center; color: gray;'>© 2026 AI Supply Chain Explorer | v1.0</div>",
+        unsafe_allow_html=True,
+    )
 
 
 if __name__ == "__main__":
